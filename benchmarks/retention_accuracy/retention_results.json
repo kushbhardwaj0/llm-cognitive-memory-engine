@@ -1,0 +1,24 @@
+{
+  "retention_accuracy_summary": {
+    "cognitive_memory_engine_accuracy": "83.3%",
+    "baseline_vector_rag_accuracy": "33.3%",
+    "retention_accuracy_lead": "+50.0%"
+  },
+  "scenarios": [
+    {
+      "scenario": "Scenario 1: State Evolution (PostgreSQL -> ScyllaDB)",
+      "naive_rag_accuracy_pct": 0.0,
+      "cognitive_engine_accuracy_pct": 100.0
+    },
+    {
+      "scenario": "Scenario 2: Multi-Hop Relational Synthesis (Zig)",
+      "naive_rag_accuracy_pct": 100.0,
+      "cognitive_engine_accuracy_pct": 100.0
+    },
+    {
+      "scenario": "Scenario 3: 30-Turn Heavy Noise Haystack",
+      "naive_rag_accuracy_pct": 0.0,
+      "cognitive_engine_accuracy_pct": 50.0
+    }
+  ]
+}
