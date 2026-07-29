@@ -1,4 +1,4 @@
-# Cognitive-Memory-Engine 🧠
+# Cognitive-Memory-Engine
 
 > **A Local-First, Human-Inspired Cognitive Memory Backend for LLM Agents Outperforming Naive Vector RAG on Long-Term Retention and Token Efficiency.**
 
@@ -9,16 +9,16 @@
 
 ---
 
-## 🏆 Key Benchmark Results
+## Key Benchmark Results
 
 Empirical benchmarks comparing **Cognitive-Memory-Engine** against standard **Naive Vector RAG** (chunking + vector embeddings + top-K retrieval) on long-horizon agent context tasks:
 
 | Metric Pillar | Naive Vector RAG | Cognitive Memory Engine | Performance Gain / Lead |
 | :--- | :---: | :---: | :---: |
-| **Long-Term Memory Retention Accuracy** | `33.3%` | **`83.3%`** | **`+50.0% Accuracy Lead`** 🚀 |
-| **State Evolution (PostgreSQL → ScyllaDB)** | `0.0% (Failed)` | **`100.0% (Passed)`** | **`+100.0% State Accuracy`** 🎯 |
-| **30-Turn Noise Haystack Recall** | `0.0%` | **`50.0%`** | **`+50.0% Noise Immunity`** 🛡️ |
-| **Average Prompt Token Savings** | *Baseline* | **`~30.1% Savings`** | **`~30% Token Compression`** ⚡ |
+| **Long-Term Memory Retention Accuracy** | `33.3%` | **`83.3%`** | **`+50.0% Accuracy Lead`** |
+| **State Evolution (PostgreSQL -> ScyllaDB)** | `0.0% (Failed)` | **`100.0% (Passed)`** | **`+100.0% State Accuracy`** |
+| **30-Turn Noise Haystack Recall** | `0.0%` | **`50.0%`** | **`+50.0% Noise Immunity`** |
+| **Average Prompt Token Savings** | *Baseline* | **`~30.1% Savings`** | **`~30% Token Compression`** |
 
 ### Why Cognitive Memory Outperforms Vector RAG:
 1. **State Overwriting vs. Chunk Confusion**: Standard RAG stores outdated text blocks side-by-side with new ones (e.g., retrieving both *"I use PostgreSQL"* and *"I migrated to ScyllaDB"*), confusing the LLM. Cognitive Engine updates graph node state `(User) --[USES_DB]--> (ScyllaDB)`, resolving state conflicts cleanly.
@@ -27,7 +27,7 @@ Empirical benchmarks comparing **Cognitive-Memory-Engine** against standard **Na
 
 ---
 
-## 🏛️ System Architecture & Memory Tiers
+## System Architecture & Memory Tiers
 
 Standard RAG treats conversation history as static text blocks. **Cognitive-Memory-Engine** replaces static retrieval with a human-inspired 3-tiered memory pipeline:
 
@@ -67,7 +67,7 @@ Standard RAG treats conversation history as static text blocks. **Cognitive-Memo
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 llm-cognitive-memory-engine/
@@ -98,7 +98,7 @@ llm-cognitive-memory-engine/
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### 1. Environment & Setup
 Ensure local [Ollama](https://ollama.com) is installed and serving `qwen2.5:7b`:
@@ -147,6 +147,6 @@ streamlit run visualizer/app.py
 
 ---
 
-## 📜 License
+## License
 
 This project is protected under a **Source-Available Custom License**. All research, commercialization, and derivative development rights are strictly reserved by the author. Use for academic or institutional research without prior written consent is prohibited. See [LICENSE](LICENSE) for full details.

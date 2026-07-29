@@ -37,22 +37,22 @@ async def ingest_history_turn(engine: CognitiveMemoryEngine, session_id: str, te
 # Scenario 1: State Evolution & Conflict Resolution
 # -------------------------------------------------------------------
 SCENARIO_1_TURNS = [
-    "For database storage, Kush originally selected PostgreSQL.",
+    "For database storage, the developer originally selected PostgreSQL.",
     "We are discussing UI layout design with TailwindCSS and CSS Grid.",
     "The user interface should feature a sleek dark mode with glassmorphic cards.",
     "Color palette options include dark slate blue and accent emerald.",
     "Typography will use Inter and Roboto fonts from Google Fonts.",
     "We are adding responsive sidebar navigation controls for dashboard screens.",
-    "Let me update our architecture decision: Kush migrated from PostgreSQL to ScyllaDB for ultra-low latency.",
+    "Let me update our architecture decision: the developer migrated from PostgreSQL to ScyllaDB for ultra-low latency.",
 ]
-SCENARIO_1_QUERY = "What database engine is currently selected for Kush's architecture?"
+SCENARIO_1_QUERY = "What database engine is currently selected for the project architecture?"
 
 
 # -------------------------------------------------------------------
 # Scenario 2: Multi-Hop Relational Synthesis (3-Hop Connection)
 # -------------------------------------------------------------------
 SCENARIO_2_TURNS = [
-    "Kush is the lead architect of Project Chimera.",
+    "Alex is the lead architect of Project Chimera.",
     "Let's review the deployment pipeline configuration using Docker containers.",
     "Project Chimera requires zero-GC memory allocation for sub-millisecond execution.",
     "We are setting up continuous integration workflows with GitHub Actions.",
@@ -98,7 +98,7 @@ SCENARIO_3_REQUIRED = ["FastAPI", "Redis", "ChromaDB", "Apple Metal"]
 
 async def run_retention_benchmarks() -> Dict[str, Any]:
     print("=" * 75)
-    print(" 🎯 STRESS-TEST BENCHMARK: MEMORY RETENTION & ACCURACY")
+    print(" STRESS-TEST BENCHMARK: MEMORY RETENTION & ACCURACY")
     print("=" * 75)
 
     for p in [RETENTION_DB_PATH, RETENTION_GRAPH_PATH]:
@@ -117,9 +117,7 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
 
     scenario_results = []
 
-    # =========================================================================
     # Scenario 1: State Evolution & Conflict Resolution
-    # =========================================================================
     print("\n[Scenario 1] State Evolution & Conflict Resolution (PostgreSQL -> ScyllaDB)")
     for turn in SCENARIO_1_TURNS:
         baseline_rag.add_document(turn)
@@ -128,16 +126,14 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
     await engine.daemon.consolidate_once()
 
     rag_ans1 = await baseline_rag.query(SCENARIO_1_QUERY)
-    # RAG fails if it identifies PostgreSQL as the choice or fails to identify ScyllaDB as current
     rag_s1_correct = "scylladb" in rag_ans1.lower() and "originally selected postgresql" in rag_ans1.lower()
 
     eng_ans1 = await engine.chat(session_id=session_id, user_message=SCENARIO_1_QUERY)
-    # Cognitive engine passes as long as ScyllaDB is correctly identified as the current DB
     eng_s1_correct = "scylladb" in eng_ans1.lower()
 
     print(f"  Query: '{SCENARIO_1_QUERY}'")
-    print(f"  • Naive RAG Answer:      \"{rag_ans1.strip()}\" -> Correct Current DB: {rag_s1_correct}")
-    print(f"  • Cognitive Engine:      \"{eng_ans1.strip()}\" -> Correct Current DB: {eng_s1_correct}")
+    print(f"  - Naive RAG Answer:      \"{rag_ans1.strip()}\" -> Correct Current DB: {rag_s1_correct}")
+    print(f"  - Cognitive Engine:      \"{eng_ans1.strip()}\" -> Correct Current DB: {eng_s1_correct}")
 
     scenario_results.append({
         "scenario": "Scenario 1: State Evolution (PostgreSQL -> ScyllaDB)",
@@ -145,9 +141,7 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
         "cognitive_engine_accuracy_pct": 100.0 if eng_s1_correct else 0.0,
     })
 
-    # =========================================================================
     # Scenario 2: Multi-Hop Relational Synthesis (3 Hops)
-    # =========================================================================
     print("\n[Scenario 2] Multi-Hop Relational Synthesis (3-Hop Connection)")
     for turn in SCENARIO_2_TURNS:
         baseline_rag.add_document(turn)
@@ -162,8 +156,8 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
     eng_s2_correct = "zig" in eng_ans2.lower()
 
     print(f"  Query: '{SCENARIO_2_QUERY}'")
-    print(f"  • Naive RAG Answer:      \"{rag_ans2.strip()}\" -> Correct Language: {rag_s2_correct}")
-    print(f"  • Cognitive Engine:      \"{eng_ans2.strip()}\" -> Correct Language: {eng_s2_correct}")
+    print(f"  - Naive RAG Answer:      \"{rag_ans2.strip()}\" -> Correct Language: {rag_s2_correct}")
+    print(f"  - Cognitive Engine:      \"{eng_ans2.strip()}\" -> Correct Language: {eng_s2_correct}")
 
     scenario_results.append({
         "scenario": "Scenario 2: Multi-Hop Relational Synthesis (Zig)",
@@ -171,9 +165,7 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
         "cognitive_engine_accuracy_pct": 100.0 if eng_s2_correct else 0.0,
     })
 
-    # =========================================================================
     # Scenario 3: Heavy Noise Haystack (30-Turn Dilution)
-    # =========================================================================
     print("\n[Scenario 3] Heavy Noise Haystack (30-Turn Dilution with 4 Needles)")
     for turn in SCENARIO_3_TURNS:
         baseline_rag.add_document(turn)
@@ -190,8 +182,8 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
     eng_s3_acc = (eng_s3_hits / len(SCENARIO_3_REQUIRED)) * 100.0
 
     print(f"  Query: '{SCENARIO_3_QUERY}'")
-    print(f"  • Naive RAG Recall:      {rag_s3_hits}/{len(SCENARIO_3_REQUIRED)} keywords ({rag_s3_acc:.1f}%)")
-    print(f"  • Cognitive Engine:      {eng_s3_hits}/{len(SCENARIO_3_REQUIRED)} keywords ({eng_s3_acc:.1f}%)")
+    print(f"  - Naive RAG Recall:      {rag_s3_hits}/{len(SCENARIO_3_REQUIRED)} keywords ({rag_s3_acc:.1f}%)")
+    print(f"  - Cognitive Engine:      {eng_s3_hits}/{len(SCENARIO_3_REQUIRED)} keywords ({eng_s3_acc:.1f}%)")
 
     scenario_results.append({
         "scenario": "Scenario 3: 30-Turn Heavy Noise Haystack",
@@ -199,7 +191,6 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
         "cognitive_engine_accuracy_pct": round(eng_s3_acc, 1),
     })
 
-    # Overall Average Accuracy %
     rag_scores = [s["naive_rag_accuracy_pct"] for s in scenario_results]
     eng_scores = [s["cognitive_engine_accuracy_pct"] for s in scenario_results]
 
@@ -216,11 +207,11 @@ async def run_retention_benchmarks() -> Dict[str, Any]:
     }
 
     print("\n" + "=" * 75)
-    print(" 📈 FINAL RETENTION STRESS-TEST RESULTS")
+    print(" FINAL RETENTION STRESS-TEST RESULTS")
     print("=" * 75)
-    print(f" • Cognitive Memory Engine Accuracy: {eng_total_acc}%")
-    print(f" • Naive Vector RAG Accuracy:       {rag_total_acc}%")
-    print(f" • Overall Accuracy Lead:           +{round(eng_total_acc - rag_total_acc, 1)}%")
+    print(f" - Cognitive Memory Engine Accuracy: {eng_total_acc}%")
+    print(f" - Naive Vector RAG Accuracy:       {rag_total_acc}%")
+    print(f" - Overall Accuracy Lead:           +{round(eng_total_acc - rag_total_acc, 1)}%")
     print("=" * 75)
 
     os.makedirs(os.path.dirname(RETENTION_RESULTS_PATH), exist_ok=True)

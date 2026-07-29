@@ -35,7 +35,7 @@ async def ingest_history_turn(engine: CognitiveMemoryEngine, session_id: str, te
 
 
 DATASET_TURNS = [
-    "Hello! My name is Kush. I am a backend systems engineer working on local AI architectures.",
+    "Hello! My name is Alex. I am a backend systems engineer working on local AI architectures.",
     "My favorite language for building core backend algorithms is Python 3.11.",
     "I prefer using Qwen2.5 running locally on Apple Silicon Metal for fast inference.",
     "Let's discuss database design for event logs. We are choosing SQLite with aiosqlite.",
@@ -44,11 +44,11 @@ DATASET_TURNS = [
 
 EVALUATION_QUESTIONS = [
     {
-        "query": "What language does Kush prefer for backend engineering based on his history?",
+        "query": "What language does Alex prefer for backend engineering based on his history?",
         "expected_keywords": ["Python", "3.11"],
     },
     {
-        "query": "What local LLM model and hardware platform does Kush use for inference?",
+        "query": "What local LLM model and hardware platform does Alex use for inference?",
         "expected_keywords": ["Qwen", "Apple", "Metal"],
     },
     {
@@ -60,7 +60,7 @@ EVALUATION_QUESTIONS = [
 
 async def run_token_benchmarks() -> Dict[str, Any]:
     print("=" * 70)
-    print(" 📊 Running Token Efficiency Benchmark Suite")
+    print(" Running Token Efficiency Benchmark Suite")
     print("=" * 70)
 
     for p in [BENCHMARK_DB_PATH, BENCHMARK_GRAPH_PATH]:
@@ -114,7 +114,7 @@ async def run_token_benchmarks() -> Dict[str, Any]:
     }
 
     print("\n" + "=" * 70)
-    print(f" 📈 Token Reduction Achieved: {results['token_reduction_percentage']}%")
+    print(f" Token Reduction Achieved: {results['token_reduction_percentage']}%")
     print("=" * 70)
 
     os.makedirs(os.path.dirname(BENCHMARK_RESULTS_PATH), exist_ok=True)

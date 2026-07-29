@@ -88,28 +88,32 @@ class CognitiveMemoryEngine:
             temperature=0.7,
         )
 
-        # Step 5: Update Working Memory and push evicted messages to Episodic Memory
+        # Step 5: Update Working Memory
         user_msg = Message(session_id=session_id, role="user", content=user_message)
         assistant_msg = Message(session_id=session_id, role="assistant", content=response_text)
 
-        evicted_user = self.working_memory.add_message(user_msg)
-        evicted_assistant = self.working_memory.add_message(assistant_msg)
-        evicted_all = evicted_user + evicted_assistant
+        self.working_memory.add_message(user_msg)
+        self.working_memory.add_message(assistant_msg)
 
-        # Persist evicted overflow messages into Episodic SQLite Store
-        if evicted_all:
-            episodes = [
-                Episode(
-                    id=msg.id,
-                    session_id=msg.session_id,
-                    role=msg.role,
-                    content=msg.content,
-                    timestamp=msg.timestamp,
-                    consolidated=False,
-                )
-                for msg in evicted_all
-            ]
-            await self.episodic_memory.add_episodes(episodes)
-            logger.info(f"Evicted {len(episodes)} working memory turns into Episodic Memory SQLite store.")
+        # Step 6: Log raw turns into Episodic Memory SQLite store
+        episodes = [
+            Episode(
+                id=user_msg.id,
+                session_id=user_msg.session_id,
+                role=user_msg.role,
+                content=user_msg.content,
+                timestamp=user_msg.timestamp,
+                consolidated=False,
+            ),
+            Episode(
+                id=assistant_msg.id,
+                session_id=assistant_msg.session_id,
+                role=assistant_msg.role,
+                content=assistant_msg.content,
+                timestamp=assistant_msg.timestamp,
+                consolidated=False,
+            ),
+        ]
+        await self.episodic_memory.add_episodes(episodes)
 
         return response_text
